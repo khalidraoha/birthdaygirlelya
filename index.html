@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Syaqinah Aulia ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+body{background:#050816;color:#fff;overflow-x:hidden}
+#stars{position:fixed;inset:0;z-index:-1}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px}
+.envelope{width:220px;height:140px;position:relative;cursor:pointer;margin-bottom:25px}
+.env-body{position:absolute;bottom:0;width:100%;height:100px;background:#f6c1d0;border-radius:0 0 10px 10px}
+.env-top{position:absolute;width:0;height:0;border-left:110px solid transparent;border-right:110px solid transparent;border-top:70px solid #ff9fbc;transform-origin:top;transition:1s}
+.open .env-top{transform:rotateX(180deg)}
+.letter{display:none;max-width:800px;background:rgba(255,255,255,.08);backdrop-filter:blur(10px);padding:25px;border-radius:20px}
+.show{display:block}
+.typing{font-size:1.2rem;min-height:80px}
+.countdown{margin:25px 0;font-size:1.3rem}
+.btn{padding:14px 28px;border:none;border-radius:30px;cursor:pointer;font-size:1rem}
+.gallery{display:none;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;padding:40px}
+.card{background:rgba(255,255,255,.08);padding:15px;border-radius:20px}
+.card img{width:100%;height:320px;object-fit:cover;border-radius:15px}
+.card p{margin-top:10px}
+h1{margin-bottom:15px}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+
+<section class="hero">
+<h1>Happy Birthday, Syaqinah Aulia ❤️</h1>
+
+<div class="envelope" id="env">
+<div class="env-top"></div>
+<div class="env-body"></div>
+</div>
+
+<div class="letter" id="letter">
+<div class="typing" id="typing"></div>
+<div class="countdown" id="countdown"></div>
+<button class="btn" id="openGallery">📸 Open Our Memories</button>
+</div>
+</section>
+
+<div class="gallery" id="gallery"></div>
+
+<script>
+// stars
+const c=document.getElementById('stars'),ctx=c.getContext('2d');
+function resize(){c.width=innerWidth;c.height=innerHeight}resize();onresize=resize;
+let stars=Array.from({length:180},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2}));
+(function anim(){
+ctx.clearRect(0,0,c.width,c.height);
+ctx.fillStyle='white';
+stars.forEach(s=>{ctx.globalAlpha=Math.random();ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.28);ctx.fill();});
+requestAnimationFrame(anim);
+})();
+
+const text=`My dearest Syaqinah,\n\nOn your special day, I just want you to know that every smile of yours feels like a blessing. May your birthday be filled with happiness, peace, and countless beautiful memories. You are precious, appreciated, and deeply cherished. ❤️`;
+
+document.getElementById('env').onclick=()=>{
+ document.getElementById('env').classList.add('open');
+ document.getElementById('letter').classList.add('show');
+ let i=0; const t=document.getElementById('typing');
+ const timer=setInterval(()=>{
+   t.innerHTML=text.slice(0,i).replace(/\n/g,'<br>');
+   i++;
+   if(i>text.length) clearInterval(timer);
+ },30);
+};
+
+function updateCountdown(){
+ let now=new Date();
+ let year=now.getFullYear();
+ let target=new Date(year,6,19);
+ if(target<now) target=new Date(year+1,6,19);
+ let diff=target-now;
+ let d=Math.floor(diff/86400000);
+ let h=Math.floor(diff%86400000/3600000);
+ let m=Math.floor(diff%3600000/60000);
+ let s=Math.floor(diff%60000/1000);
+ document.getElementById('countdown').innerHTML=`⏳ Next 19 July in: ${d}d ${h}h ${m}m ${s}s`;
+}
+setInterval(updateCountdown,1000); updateCountdown();
+
+const captions=[
+"The smile that made my ordinary days feel extraordinary. ❤️",
+"A moment frozen in time, yet forever alive in my heart.",
+"Every picture tells a story, and every story leads me back to you.",
+"You are the calm in my chaos and the light in my darkest nights.",
+"One glance at you and the world suddenly feels softer.",
+"Some memories fade, but memories with you shine forever.",
+"If happiness had a face, it would look a lot like this.",
+"Every version of you is my favorite version. ❤️",
+"A thousand beautiful moments, yet this one still steals my breath.",
+"My favorite place has never been a location—it has always been you."
+];
+
+document.getElementById('openGallery').onclick=()=>{
+ let g=document.getElementById('gallery');
+ g.style.display='grid';
+ if(g.innerHTML) return;
+ for(let i=1;i<=10;i++){
+   g.innerHTML += `<div class="card"><img src="photo${i}.jpg" alt="photo${i}"><p>${captions[i-1]}</p></div>`;
+ }
+};
+</script>
+</body>
+</html>
